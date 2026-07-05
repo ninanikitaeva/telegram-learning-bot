@@ -688,7 +688,14 @@ lang_keyboard = [
     ["C#"]
 ]
 
-back_keyboard = [["Назад к выбору языка"]]
+back_keyboard = [
+    ["Назад к выбору языка"]
+]
+
+lesson_nav_keyboard = [
+    ["⬅️ Предыдущий урок", "➡️ Следующий урок"],
+    ["Назад к выбору языка"]
+]
 
 # ---------------- START ----------------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -738,6 +745,7 @@ async def choose_lang(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ---------------- ВЫБОР УРОКА ----------------
 async def choose_lesson(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
+
     user_choice = update.message.text
 
     # Назад
@@ -755,9 +763,51 @@ async def choose_lesson(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     current_lang = context.user_data.get("lang")
 
+    current_lang = context.user_data.get("lang")
+
+    # Переключение между уроками
+    if user_choice in ["⬅️ Предыдущий урок", "➡️ Следующий урок"]:
+
+        current_index = context.user_data.get("lesson_index", 0)
+
+        if user_choice == "⬅️ Предыдущий урок":
+            current_index -= 1
+        else:
+            current_index += 1
+
+        lessons_list = lessons[current_lang]
+
+        if current_index < 0:
+            await update.message.reply_text(
+                "🔙 Ты дошёл до начала курса. Выбери язык:",
+                reply_markup=ReplyKeyboardMarkup(
+                    lang_keyboard,
+                    resize_keyboard=True
+                ),
+            )
+
+            return CHOOSING_LANG
+
+        if current_index >= len(lessons_list):
+            await update.message.reply_text(
+                "🎉 Ты просмотрел все уроки этого раздела. Выбери другой язык:",
+                reply_markup=ReplyKeyboardMarkup(
+                    lang_keyboard,
+                    resize_keyboard=True
+                ),
+            )
+
+            return CHOOSING_LANG
+
+        context.user_data["lesson_index"] = current_index
+
+        user_choice = lessons_list[current_index]
+
     if current_lang and user_choice in lessons[current_lang]:
+        context.user_data["lesson_index"] = lessons[current_lang].index(user_choice)
 
         lesson_text = "Материал пока недоступен."
+
 
         # PYTHON
         if current_lang == "Python":
@@ -782,7 +832,7 @@ async def choose_lesson(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             lesson_text,
             reply_markup=ReplyKeyboardMarkup(
-                back_keyboard,
+                lesson_nav_keyboard,
                 resize_keyboard=True
             ),
         )
