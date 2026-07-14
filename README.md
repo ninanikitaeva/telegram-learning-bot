@@ -1,5 +1,4 @@
-git add README.md
-git commit -m "# Programming Lessons Telegram Bot
+# Programming Lessons Telegram Bot
 
 ## Project Description
 
