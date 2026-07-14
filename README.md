@@ -52,5 +52,4 @@ During development, I analyzed user experience and implemented solutions to impr
 
 ## Purpose
 
-This project was created to improve my programming skills and demonstrate my ability to design and develop educational software applications."
-git push
+This project was created to improve my programming skills and demonstrate my ability to design and develop educational software applications.
