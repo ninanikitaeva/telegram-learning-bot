@@ -14,6 +14,22 @@ The bot currently supports five programming languages:
 
 Users can select a programming language, browse available lessons, and navigate between lessons using built-in buttons. The project is designed to make learning programming more accessible and organized.
 
+## Installation and Setup
+
+To run this project locally:
+
+
+### 1. Clone the repository
+
+```bash
+git clone YOUR_REPOSITORY_LINK
+```
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv .venv
+```
 ## Features
 
 - Interactive Telegram interface
@@ -49,6 +65,8 @@ During development, I analyzed user experience and implemented solutions to impr
 - Quizzes and coding exercises
 - Database integration
 - Multi-language support
+
+
 
 ## Purpose
 
